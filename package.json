@@ -47,6 +47,7 @@
     "shelljs": "^0.7.4",
     "url-loader": "^0.5.7",
     "vue-loader": "^10.0.0",
+    "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1",
     "vue-style-loader": "^1.0.0",
     "vue-template-compiler": "^2.1.0",
@@ -59,8 +60,8 @@
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "repository": { 
-    "type" : "git", 
-    "url" : "https://github.com/yubaobin/emoji.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yubaobin/emoji.git"
   }
 }

@@ -10,17 +10,23 @@ import App from './App'
 // 引用路由
 import VueRouter from 'vue-router'
 // 引用路由配置文件
-import routes from './config/routes'
+import router from './config/routes'
+//过滤器
+import filter from 'filter/filter'
+//网络请求
+import VueResource from 'vue-resource'
+
 //使用路由
 Vue.use(VueRouter);
+//使用网络请求
+Vue.use(VueResource);
 
-// 使用配置文件规则
-const router = new VueRouter({
-  routes
-})
-
+Vue.proto
 new Vue({
   router,
   el: '#app',
-  render:(h) => h(App)
+  render:(h) => h(App),
+  created:function(){
+  	console.log("created");
+  }
 })
