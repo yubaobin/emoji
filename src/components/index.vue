@@ -1,69 +1,57 @@
 <template>
-  <div>
-  	  <router-link to="/login">注销</router-link>
-  	  <transition name="fade" mode="out-in">
-		  <div class="loading" v-if="loading" key="loading">
-		  	loading....
-		  </div>
-		  <div class="error" v-if="error" key="error">
-		  	error
-		  </div>
-		  <div class="success" v-if="success" key="success">
-		  	<h1>列表</h1>
-		  	<ul>
-		  		<li v-for="item in items" @click="gotoDetail(item.id)">{{item.title}}</li>
-		  	</ul>
-		  </div>
-	  </transition>
+  <div class="container" v-if="show">
+  	 <section class="bg-content">
+  	  	<img src="../assets/index/dog.png"/>
+  	 </section>
+  	  	
+  	 <section class="upload-content">
+  	  	 <vue-core-image-upload 
+	  	  	 v-bind:class="['upload']" 
+	  	  	 v-on:imageuploaded="imageuploaded" 
+	  	  	 extensions="png,gif,jpeg,jpg" 
+	  	  	 input-accept="image/*" 
+	  	  	 text="" 
+	  	  	 v-on:selectimg = "selectimg"
+	  	  	 v-bind:show="true" >
+  	  	 	<icon name="camera"></icon>
+  	  	 </vue-core-image-upload>
+  	 </section>  	 
   </div>
+  <edit-img :src="imgsrc" v-else></edit-img>
 </template>
 <script>
-import {API} from '../config/api'
+import Vue from 'vue'
+import Icon from 'vue-awesome/components/Icon.vue'
+import 'vue-awesome/icons/camera'
+import editimg from './editimg'
+import VueCoreImageUpload  from 'vue-core-image-upload/src/vue.core.image.upload.vue';
+
 export default {
 	data:function(){
 		return {
-			items:[],
-			error:null,
-			loading:true
+			imgsrc: "",
+			show: true
 		}
 	},
+
 	created:function(){
-		this.getData();
+		
+	},
+	components: {
+		'icon': Icon,
+		'vue-core-image-upload': VueCoreImageUpload,
+		'editImg': editimg
 	},
 	computed:{
-		success:function(){
-			let result = null;
-			if(this.error != null){
-				result = !this.error;
-			}
-			return result;
-		}
+		
 	},
 	methods:{
-		getData (){
-			let me = this;
-			let options = { //参数
-				params:{
-					page : 1,
-					limit: 2
-				}
-			}
-			me.$http.get(API.getTopics,options)
-			.then((data) => {
-				if(data.ok){
-					this.loading = false;
-					this.error = false;
-					this.items = data.data.data;
-				}	
-			},(err) => {
-				console.log('err',err);
-			})
+		imageuploaded(res) {
+
 		},
-		gotoDetail (id){
-			console.log(id)
-			this.$router.push({
-				path:`/content/${id}`
-			})
+		selectimg(res){
+			this.show = false;
+			this.imgsrc = res;
 		}
 	}
 }

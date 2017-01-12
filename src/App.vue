@@ -1,19 +1,34 @@
 <template>
-  <div>
-    <transition name="fade" mode="out-in">
-      <router-view
-        class="view">
-      </router-view>
-    </transition>
-  </div>
+	<transition name="fade">
+		<welcome v-if="welcome"></welcome>
+	    <router-view
+	      class="view"
+	      keep-alive v-else>
+	 	</router-view>
+ 	</transition>
 </template>
 
 <script>
+import welcome from 'components/welcome'
+import {mapState} from 'vuex'
+
 export default {
-  components: {}
+	data (){
+		return {
+			welcome: true
+		}
+	},
+	components: {
+	  welcome
+	},
+	computed: {
+		...mapState({
+			welcome:'showWelcome'
+		})
+	}
 }
 </script>
 
 <style lang="scss">
-  @import "./styles/style";
+@import "./styles/style";
 </style>

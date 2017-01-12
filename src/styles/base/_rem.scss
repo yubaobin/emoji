@@ -1,0 +1,28 @@
+// rem.scss
+@charset "utf-8";
+$divide: 20;
+$ppr: $divide/1rem;// 定义单位
+
+@mixin toRem($property, $values...) {
+    $max: length($values);
+    $remValues: '';
+    @for $i from 1 through $max {
+        $value: nth($values, $i) / $divide ;
+        $remValues: #{$remValues + $value}rem;
+        @if $i < $max {
+            $remValues: #{$remValues + " "};
+        }
+    }
+    #{$property}: $remValues;
+}
+
+/**
+ * 使用
+ *
+ * @import "rem";
+ * .nav-list {
+ *   height: 10px/$ppr;
+ *   @include toRem(margin, 10, 15, 10, 15);
+ * }
+ *
+ */

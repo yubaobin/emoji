@@ -1,7 +1,5 @@
 // 引用模板
-import index from 'components/Index'
-import content from 'components/Content'
-import login from 'components/Login'
+import index from 'components/index'
 // 引用路由
 import VueRouter from 'vue-router'
 // 配置路由
@@ -12,23 +10,16 @@ const routes = [
   },
   {
     path: '/index',
-    component: index,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/login',
-    component: login
-  },
-  {
-    path: '/content/:id',
-    component: content,
-    alias:'/c/:id',//别名
-    meta: { requiresAuth: true }
+    component: index
   }
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history', //html5 history模式
+  scrollBehavior(to, from, savedPosition){
+  
+  }
 })
 
 router.beforeEach((to, from, next) => {

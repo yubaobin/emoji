@@ -9,4 +9,15 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script type="text/javascript">
+  /**
+   * 简单响应
+   */
+  	(function(){
+  		const PSDWIDTH = 320;
+  		const DIVIDE = 20;
+  		const doc_width = document.documentElement.getBoundingClientRect().width;
+  		document.documentElement.style.fontSize = DIVIDE / PSDWIDTH * doc_width + "px" ;
+  	})(window);
+  </script>
 </html>

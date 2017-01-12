@@ -1,5 +1,30 @@
-@import 'base/_color';
+@import "./base/rem.scss";
+@import "../styles/base/_mixin";
 
-li {
-	color : $blue;
+.container {
+	height: 100%;
+	.bg-content {
+		position: relative;
+		height: 70%;
+		background-image: url(../assets/index/bg-index.png);
+		box-shadow: 0px 4px 8px #ccc8c8;
+		img {
+			width: 100%;
+			position: absolute;
+    		bottom: 0;
+		}
+	}
+	.upload-content {
+		position: relative;
+		height: 30%;
+		.upload {
+			background-color: #F5ABAC;
+			border-radius: 99px;
+			@include center(100/$ppr,100/$ppr);
+			.fa-icon {
+				color: #FFF;
+				@include center();
+			}
+		}
+	}
 }

@@ -1,0 +1,15 @@
+@import "../styles/base/_mixin";
+
+.edit-container {
+	width: 100%;
+	height: 100%;
+	.editimg {
+		position: relative;
+		width: 100%;
+		height: 70%;
+		img {
+			max-height: 100%;
+			@include center(100%);
+		}
+	}
+}

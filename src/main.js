@@ -15,15 +15,19 @@ import router from './config/routes'
 import filter from 'filter/filter'
 //网络请求
 import VueResource from 'vue-resource'
+//Vuex
+//import Vuex from 'vuex'
+import store from './store/index'
 
 //使用路由
 Vue.use(VueRouter);
 //使用网络请求
 Vue.use(VueResource);
-
-Vue.proto
+//使用vuex
+//Vue.use(Vuex);
 new Vue({
   router,
+  store,
   el: '#app',
   render:(h) => h(App),
   created:function(){

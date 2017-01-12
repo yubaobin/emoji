@@ -1,0 +1,41 @@
+@import "./_mixin";
+
+@include keyframes(fly-right) {
+	0% {
+		@include translate(100%,0%);
+	}
+	100% {
+		@include translate(0%,0%);
+	}
+};
+
+@include keyframes(fly-left) {
+	0% {
+		opacity: 0;
+		@include translate(-100%,0%);
+	}
+	100% {
+		opacity: 1;
+		@include translate(0%,0%);
+	}
+};
+
+@include keyframes(fly-down) {
+	0% {
+		opacity: 0;
+		@include translate(0%,100%);
+	}
+	100% {
+		opacity: 1;
+		@include translate(0%,0%);
+	}
+};
+
+@include keyframes(fadeIn) {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

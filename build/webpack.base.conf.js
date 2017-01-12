@@ -36,6 +36,7 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
+    noParse: [/html2canvas/], //不加这段，使用html2canvas会有警告
     // preLoaders: [
     //   {
     //     test: /\.vue$/,
@@ -59,7 +60,8 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         include: projectRoot,
-        exclude: /node_modules/
+        // exclude: /node_modules/
+        exclude: [/node_modules(?![\\/]vue-awesome[\\/])/,/plugins/]
       },
       {
         test: /\.json$/,
