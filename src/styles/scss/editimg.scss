@@ -1,15 +1,30 @@
 @import "../styles/base/_mixin";
-
+@import "../styles/base/rem";
+@import "../styles/base/_color";
 .edit-container {
 	width: 100%;
 	height: 100%;
 	.editimg {
 		position: relative;
+		background-image: url(../assets/index/bg-index.png);
 		width: 100%;
 		height: 70%;
 		img {
+			background-color: $white;
 			max-height: 100%;
 			@include center(100%);
+		}
+	}
+	.edittool {
+		position: relative;
+		width: 100%;
+		height: 30%;
+		.v-btn {
+			position: relative;
+			border-radius: 99px;
+			background-color: #F98A6A;
+			width: 60/$ppr;
+			height: 60/$ppr;
 		}
 	}
 }

@@ -1,16 +1,16 @@
 <template>
-  <button
-    class="v-btn"
-    :id="id"
-    :class="customClass"
-    :name="name"
-    :disabled="disabled"
-    :large="large"
-    :markup="markup"
-    @click="handleClick"
-  >
-    <slot></slot>
-  </button>
+  <div class="btn-container">
+    <button
+      class="v-btn"
+      :id="id"
+      :name="name"
+      :disabled="disabled"
+      :btntype="btntype"
+      @click="handleClick">
+      <slot></slot>
+    </button>
+    <slot name="undertext"></slot>
+  </div>
 </template>
 
 <script>
@@ -18,10 +18,6 @@ export default {
   name: 'v-button',
   props: {
     id: {
-      type: String,
-      default: null
-    },
-    customClass: {
       type: String,
       default: null
     },
@@ -33,13 +29,15 @@ export default {
       type: Boolean,
       default: false
     },
-    large: {
-      type: Boolean,
-      default: false
-    },
-    markup: {
+    btntype: {
       type: String,
       default: 'default'
+    },
+    width:{
+      type: String
+    },
+    height:{
+      type: String
     }
   },
   methods: {
@@ -51,8 +49,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$default-color: #9f9f9f;
-$default-hover-color: #2c3e50;
+$default-color: #FFF;
+$default-hover-color: #FFF;
 $primary-color: #22a7f0;
 $primary-hover-color: #0d7cb9;
 $success-color: #019875;
@@ -72,46 +70,49 @@ $disabled-color: #dadada;
     box-shadow: 0 0 0 1px $hover-color inset;
   }
 }
+.btn-container {
+  display:inline-block;
+  text-align: center;
+  .v-btn {
+    cursor: pointer;
+    border: none;
+    background: 0 0;
+    border-radius: 3.5px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    padding: 6px 24px;
+    text-decoration: none;
+    outline: 0;
 
-.v-btn {
-  cursor: pointer;
-  border: none;
-  background: 0 0;
-  border-radius: 3.5px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  padding: 6px 24px;
-  text-decoration: none;
-  outline: 0;
+    &:disabled {
+      cursor: not-allowed;
+      color: $disabled-color !important;
+      box-shadow: 0 0 0 1px $disabled-color inset !important;
+    }
 
-  &:disabled {
-    cursor: not-allowed;
-    color: $disabled-color !important;
-    box-shadow: 0 0 0 1px $disabled-color inset !important;
+    &[btntype="default"] {
+      @include button-color($default-color, $default-hover-color);
+    }
+
+    &[btntype="primary"] {
+      @include button-color($primary-color, $primary-hover-color);
+    }
+
+    &[btntype="success"] {
+      @include button-color($success-color, $success-hover-color);
+    }
+
+    &[btntype="warning"] {
+      @include button-color($warning-color, $warning-hover-color);
+    }
+
+    &[btntype="error"] {
+      @include button-color($error-color, $error-hover-color);
+    }
   }
-
-  &[large="true"] {
-    font-size: 1.4rem;
-  }
-
-  &[markup="default"] {
-    @include button-color($default-color, $default-hover-color);
-  }
-
-  &[markup="primary"] {
-    @include button-color($primary-color, $primary-hover-color);
-  }
-
-  &[markup="success"] {
-    @include button-color($success-color, $success-hover-color);
-  }
-
-  &[markup="warning"] {
-    @include button-color($warning-color, $warning-hover-color);
-  }
-
-  &[markup="error"] {
-    @include button-color($error-color, $error-hover-color);
+  .undertext {
+    margin-top: 2px;
+    display: block;
   }
 }
 </style>

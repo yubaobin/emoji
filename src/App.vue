@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import welcome from 'components/welcome'
+import welcome from 'views/welcome'
 import {mapState} from 'vuex'
 
 export default {

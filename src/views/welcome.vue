@@ -9,11 +9,11 @@
 		<div class="img flyDown">
 			<img src="../assets/welcome/3.png"/>
 		</div>
-		<v-button customClass="button fadeIn" markup="warning" @click="gotoIndex()">进入</v-button>
+		<v-button class="button fadeIn" btntype="warning" @click="gotoIndex()">进入</v-button>
 	</div>
 </template>
 <script>
-import VueButton from './button'
+import VueButton from 'components/button'
 import Vue from 'vue'
 
 export default {

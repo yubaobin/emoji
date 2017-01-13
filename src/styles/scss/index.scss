@@ -21,10 +21,6 @@
 			background-color: #F5ABAC;
 			border-radius: 99px;
 			@include center(100/$ppr,100/$ppr);
-			.fa-icon {
-				color: #FFF;
-				@include center();
-			}
 		}
 	}
 }

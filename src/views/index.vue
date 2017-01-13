@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="show">
-  	 <section class="bg-content">
+  	 <section class="bg-content" @touchstart="start">
   	  	<img src="../assets/index/dog.png"/>
   	 </section>
   	  	
@@ -23,7 +23,7 @@
 import Vue from 'vue'
 import Icon from 'vue-awesome/components/Icon.vue'
 import 'vue-awesome/icons/camera'
-import editimg from './editimg'
+import editimg from 'views/editimg'
 import VueCoreImageUpload  from 'vue-core-image-upload/src/vue.core.image.upload.vue';
 
 export default {

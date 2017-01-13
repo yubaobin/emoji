@@ -1,5 +1,5 @@
 // 引用模板
-import index from 'components/index'
+import index from 'views/index'
 // 引用路由
 import VueRouter from 'vue-router'
 // 配置路由
