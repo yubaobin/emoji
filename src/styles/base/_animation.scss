@@ -30,7 +30,26 @@
 		@include translate(0%,0%);
 	}
 };
-
+@include keyframes(fly-up-enter) {
+	0% {
+		opacity: 0;
+		@include translate(0%,-100%);
+	}
+	100% {
+		opacity: 1;
+		@include translate(0%,0%);
+	}
+};
+@include keyframes(fly-up-leave) {
+	0% {
+		opacity: 1;
+		@include translate(0%,0%);
+	}
+	100% {
+		opacity: 0;
+		@include translate(0%,-100%);
+	}
+};
 @include keyframes(fadeIn) {
 	0% {
 		opacity: 0;

@@ -7,12 +7,13 @@ import Vuex from 'vuex'
 import * as getters from './getters'
 import * as actions from './actions'
 import * as types from './type/mutations-type'
+import {editor} from './modules/editor'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		showWelcome:true
+		showWelcome:false
 	},
 	mutations: {
 		[types.CHANGE_WELCOME] (state,options) {
@@ -22,6 +23,6 @@ export default new Vuex.Store({
 	getters: getters,
 	actions: actions,
 	modules: {
-
+		editor
 	}
 })

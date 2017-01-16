@@ -16,7 +16,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  mode: 'history', //html5 history模式
+  //mode: 'history', //html5 history模式
   scrollBehavior(to, from, savedPosition){
   
   }

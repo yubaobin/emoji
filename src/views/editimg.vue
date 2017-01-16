@@ -1,31 +1,19 @@
-<!-- <template>
-	<div class="edit-container" >
-		<section class="editimg" ref="editimg">
-			<img :src="src"/>
-		</section>
-		<section class="edittool">
-			<v-button @click="addText" >
-				<icon name="font" ></icon>
-				<span slot="undertext" class="undertext">文字</span>
-			</v-button>
-		</section>
-	</div>
-</template> -->
-
 <script>
 import VueButton from 'components/button'
 import html2canvas from 'plugins/html2canvas/html2canvas'
 import Icon from 'vue-awesome/components/Icon.vue'
-import 'vue-awesome/icons/font'
+import 'vue-awesome/icons/close'
+import 'vue-awesome/icons/text-height'
 import move from 'components/move'
 
 export default {
 	data () {
 		return {
-			buttons:[],
-			addComponents:[],
-			hide: true,
-			previewsrc:''
+			buttons:[], //按钮工具
+			addComponents:[], //组件
+			hide: true, //预览隐藏现实
+			previewsrc:'', //预览
+			leave:'' //预览离开
 		}
 	},
 	props:{
@@ -124,14 +112,17 @@ export default {
 				createElement(
 					'div',
 					{
-						class:{preview: true,hide:this.hide},
+						class:{preview: true,hide:this.hide,leave:this.leave},
 						ref: "preview"
 					},
 					[
-						// createElement(
-						// 	'div'
-						// 	{on:{click:this.close},class:{close:true}},
-						// ),
+						createElement(
+							'div',
+							{on:{click:this.close},class:{close:true}},
+							[
+								createElement('icon',{attrs:{name:'close'}})
+							]
+						),
 						createElement(
 							'img',
 							{attrs:{src:this.previewsrc}}
@@ -147,17 +138,21 @@ export default {
 		move,
 	},
 	created (){
+		console.log(this.$store.state.editor);
 		this.addBtn();
 	},
 	methods: {
+		//生成图片
 		change () {
 			html2canvas(this.$refs.editimg).then((canvas) => {
 				// this.$refs.preview.appendChild(canvas);
 				this.previewsrc = canvas.toDataURL("image/png");
+				this.leave = false;
 				this.hide = false;
 			})
 			
 		},
+		//添加组件
 		addComponent (e) {
 			const type = e.currentTarget.dataset['type'];
 			const len = this.addComponents.length;
@@ -171,16 +166,20 @@ export default {
 				this.addComponents.push(obj);
 			}
 		},
-		
+		//添加工具按钮
 		addBtn () {
 			let btn = {
-				icon:'font',
+				icon:'text-height',
 				name: '文字',
 				type: 'text'
 			}
 			this.buttons.push(btn)
+		},
+		//关闭预览
+		close () {
+			this.leave = true;
+			setTimeout( () =>{this.hide = true;},1*1000)
 		}
-
 	}
 }
 </script>
