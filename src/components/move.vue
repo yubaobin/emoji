@@ -1,14 +1,25 @@
 <template>
-	<div class="movebox" v-on:touchstart="touchstart" @touchmove="moving" @touchend="moveend" :style="boxstyle">
+	<v-touch 
+		tag="div" 
+		class="movebox" 
+		:style="boxstyle"
+		@panstart="panstart"
+		@panmove="panmove"
+		@panend="panend"
+		@pinch="pinchstart">
 		<slot></slot>
-	</div>
+	</v-touch>
 </template>
 
 <script>
 export default {
 	data () {
 		return {
-			dragging: false
+			moving: false,
+			starttop: this.top,
+			startleft: this.left,
+			boxtop: this.top,
+			boxleft: this.left
 		}
 	},
 	props: {
@@ -25,21 +36,32 @@ export default {
 			default: "text"
 		}
 	},
-	methods:{
-		touchstart (e) {
-			console.log("touchstart",e);
-		},
-		moving (e) {
-			console.log("moving",e)
-		},
-		moveend (e) {
-			console.log("moveend",e)
-		}
-	},
 	computed: {
-		boxstyle (){
-			top: this.top + "px";
-			left: this.left + "px";
+		boxstyle () {
+			return {
+				top: this.boxtop + "px",
+				left: this.boxleft + "px"
+			}
+		},
+	},
+	methods: {
+		//开始移动
+		panstart (e) {
+			console.log("start");
+			this.starttop = e.target.offsetTop;
+			this.startleft = e.target.offsetLeft;
+		},
+		//移动中
+		panmove (e) {
+			this.boxtop = this.starttop + e.deltaY;
+			this.boxleft = this.startleft + e.deltaX;
+		},
+		//移动结束
+		panend (e) {
+
+		},
+		pinchstart (e) {
+			console.log(e);
 		}
 	}
 }

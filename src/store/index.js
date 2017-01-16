@@ -12,13 +12,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		showWelcome:false
+		showWelcome:true
 	},
 	mutations: {
 		[types.CHANGE_WELCOME] (state,options) {
-			console.log(options.welcome)
 			state.showWelcome = options.welcome;
-			console.log(state.welcome)
 		}
 	},
 	getters: getters,

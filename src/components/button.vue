@@ -5,6 +5,7 @@
       :id="id"
       :name="name"
       :disabled="disabled"
+      :data-type="btntype"
       :btntype="btntype"
       @click="handleClick">
       <slot></slot>

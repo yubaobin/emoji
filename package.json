@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "css-element-queries": "^0.4.0",
+    "hammerjs": "^2.0.8",
     "vue": "^2.1.0",
     "vue-awesome": "^2.0.3",
     "vue-awesome-swiper": "^2.3.0",
-    "vue-core-image-upload": "^2.0.1"
+    "vue-core-image-upload": "^2.0.1",
+    "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

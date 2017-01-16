@@ -31,6 +31,7 @@ module.exports = {
       'styles': path.resolve(__dirname, '../src/styles'),
       'plugins': path.resolve(__dirname, '../src/plugins'),
       'filter': path.resolve(__dirname, '../src/filter'),
+      'config': path.resolve(__dirname, '../src/config'),
     }
   },
   resolveLoader: {

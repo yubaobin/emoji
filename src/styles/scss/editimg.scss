@@ -9,22 +9,47 @@
 		background-image: url(../assets/index/bg-index.png);
 		width: 100%;
 		height: 70%;
+		.editing {
+			width: 100%;
+			height: 100%;
+		}
 		img {
 			background-color: $white;
 			max-height: 100%;
 			@include center(100%);
+		} 
+		.text {
+			position: absolute;
+			padding: 2px 5px;
 		}
 	}
 	.edittool {
 		position: relative;
 		width: 100%;
-		height: 30%;
+		height: 15%;
 		.v-btn {
 			position: relative;
 			border-radius: 99px;
 			background-color: #F98A6A;
 			width: 60/$ppr;
 			height: 60/$ppr;
+		}
+	}
+	.sumitcontainer {
+		position: relative;
+		width: 100%;
+		height: 15%;
+		text-align: center;
+		padding: 5% 0;
+	}
+	.preview {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,.5);
+		position: absolute;
+		top: 0;
+		&.hide {
+			display: none;
 		}
 	}
 }

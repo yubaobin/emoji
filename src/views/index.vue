@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="show">
-  	 <section class="bg-content" @touchstart="start">
+  	 <section class="bg-content">
   	  	<img src="../assets/index/dog.png"/>
   	 </section>
   	  	
