@@ -1,3 +1,7 @@
+<!-- 
+这里也可以用template 
+只是本人想使用模板函数     
+-->
 <script>
 import VueButton from 'components/button'
 import html2canvas from 'plugins/html2canvas/html2canvas'
@@ -5,15 +9,16 @@ import Icon from 'vue-awesome/components/Icon.vue'
 import 'vue-awesome/icons/close'
 import 'vue-awesome/icons/text-height'
 import move from 'components/move'
+import {mapGetters} from 'vuex'
 
 export default {
 	data () {
 		return {
 			buttons:[], //按钮工具
-			addComponents:[], //组件
 			hide: true, //预览隐藏现实
 			previewsrc:'', //预览
-			leave:'' //预览离开
+			leave:'', //预览离开
+			isShowTool: false  //显示元素工具
 		}
 	},
 	props:{
@@ -26,7 +31,10 @@ export default {
 		return createElement(
 			'div',//标签
 			{//属性
-				class: {'edit-container':true}
+				class: {'edit-container':true},
+				on:{
+					click:this.cancel
+				}
 			},
 			//子节点
 			[	
@@ -45,14 +53,22 @@ export default {
 									domProps:{src: this.src}
 								}
 							),
-							this.addComponents.map( (com)=> {
+							this.elements.map( (com)=> {
 								return createElement(
 									'move',
 									{
 										class:{text:true},
 										attrs: {
 											top: com.top,
-											left: com.left
+											left: com.left,
+											id: com.id,
+											isShowTool: this.isShowTool,
+											name:com.id
+										},
+										on: {
+											editElem:this.editElem,
+											deleteElem:this.deleteElem,
+											showTool: this.showTool
 										}
 									},
 									com.text
@@ -138,10 +154,25 @@ export default {
 		move,
 	},
 	created (){
-		console.log(this.$store.state.editor);
 		this.addBtn();
 	},
+	computed: {
+		...mapGetters({
+			'elements': 'getElements',
+			'elemLength': 'getLength'
+		})
+	},
 	methods: {
+		//隐藏组件工具
+		cancel (e) {
+			if(!e.target.classList.contains('text')){
+				this.isShowTool = false;
+			}
+		},
+		//显示组件工具
+		showTool (e) {
+			this.isShowTool = true;
+		},
 		//生成图片
 		change () {
 			html2canvas(this.$refs.editimg).then((canvas) => {
@@ -155,15 +186,14 @@ export default {
 		//添加组件
 		addComponent (e) {
 			const type = e.currentTarget.dataset['type'];
-			const len = this.addComponents.length;
-
 			if(type == "text"){
 				let obj = {
-					top: len * 20 + 5,
-					left: len + 2,
-					text: '可以编辑'
+					id : Math.random().toString().substr(2, 8),
+					top: this.elemLength * 10 + 5,
+					left: this.elemLength + 2,
+					text: '点击编辑文字'
 				}
-				this.addComponents.push(obj);
+				this.$store.dispatch('addElem',obj);
 			}
 		},
 		//添加工具按钮
@@ -179,6 +209,15 @@ export default {
 		close () {
 			this.leave = true;
 			setTimeout( () =>{this.hide = true;},1*1000)
+		},
+		//编辑
+		editElem (id){
+			this.$store.dispatch('setElem',{id:id});
+			this.$router.push('/edittext')
+		},
+		//删除
+		deleteElem (id){
+			this.$store.dispatch('deleteElem',{id:id})
 		}
 	}
 }

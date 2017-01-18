@@ -7,7 +7,7 @@ import Vuex from 'vuex'
 import * as getters from './getters'
 import * as actions from './actions'
 import * as types from './type/mutations-type'
-import {editor} from './modules/editor'
+import editor from './modules/editor'
 
 Vue.use(Vuex)
 

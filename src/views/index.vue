@@ -25,6 +25,7 @@ import Icon from 'vue-awesome/components/Icon.vue'
 import 'vue-awesome/icons/camera'
 import editimg from 'views/editimg'
 import VueCoreImageUpload  from 'vue-core-image-upload/src/vue.core.image.upload.vue';
+import {mapGetters} from 'vuex'
 
 export default {
 	data:function(){
@@ -35,7 +36,9 @@ export default {
 	},
 
 	created:function(){
-		
+		if(this.imgsrc)	{
+			this.show = false;
+		}
 	},
 	components: {
 		'icon': Icon,
@@ -43,7 +46,9 @@ export default {
 		'editImg': editimg
 	},
 	computed:{
-		
+		...mapGetters({
+			'imgsrc': 'getImg'
+		})
 	},
 	methods:{
 		imageuploaded(res) {
@@ -51,7 +56,7 @@ export default {
 		},
 		selectimg(res){
 			this.show = false;
-			this.imgsrc = res;
+			this.$store.dispatch('changeImg',{src:res});
 		}
 	}
 }

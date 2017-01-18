@@ -6,8 +6,10 @@
 		@panstart="panstart"
 		@panmove="panmove"
 		@panend="panend"
-		@pinch="pinchstart">
+		@tap.prevent="tap">
 		<slot></slot>
+		<v-touch tag="span" @tap="editElem" v-if="isShow" >编辑</v-touch >
+		<v-touch tag="span" @tap="deleteELem" v-if="isShow" >删除</v-touch >
 	</v-touch>
 </template>
 
@@ -15,11 +17,12 @@
 export default {
 	data () {
 		return {
-			moving: false,
-			starttop: this.top,
+			moving: false, //移动
+			starttop: this.top, //移动开始top和left
 			startleft: this.left,
-			boxtop: this.top,
-			boxleft: this.left
+			boxtop: this.top, //移动中的top和left
+			boxleft: this.left,
+			show: false
 		}
 	},
 	props: {
@@ -34,7 +37,17 @@ export default {
 		type: {
 			type:String,
 			default: "text"
+		},
+		id: {
+			type:String
+		},
+		isShowTool: {
+			type:Boolean,
+			default: false
 		}
+	},
+	updated () {
+		
 	},
 	computed: {
 		boxstyle () {
@@ -43,25 +56,68 @@ export default {
 				left: this.boxleft + "px"
 			}
 		},
+		currentId () {
+			return this.id;
+		},
+		isShow () {
+			let result = false;
+			if(this.isShowTool && this.show){
+				result = true;
+			}
+			return result;
+		},
+		elemValue() {
+			return {
+				id: this.id,
+				top: this.boxtop,
+				left: this.boxleft 
+			}
+		}
 	},
 	methods: {
 		//开始移动
 		panstart (e) {
-			console.log("start");
 			this.starttop = e.target.offsetTop;
 			this.startleft = e.target.offsetLeft;
 		},
 		//移动中
 		panmove (e) {
+			this.show = false;
 			this.boxtop = this.starttop + e.deltaY;
 			this.boxleft = this.startleft + e.deltaX;
 		},
 		//移动结束
 		panend (e) {
-
+			console.log("移动结束");
+			this.$store.dispatch('updateElem',this.elemValue);
 		},
-		pinchstart (e) {
-			console.log(e);
+		//显示组件
+		tap (e) {
+			this.$emit('showTool');
+			this.show = true;
+		},
+		//编辑
+		editElem (e){
+			this.$emit('editElem',this.currentId);
+		},
+		//删除
+		deleteELem (e){
+			this.show = false;
+			this.$emit('deleteElem',this.currentId);
+		},
+		changeStyle () {
+			this.boxtop = this.top;
+			this.boxleft = this.left;
+		}
+	},
+	watch: {
+		isShowTool (newval,oldval) { //监听变话，如果父的show从true->false ，需要吧自己的show变成false
+			if(newval == false && oldval == true){
+				this.show = false;
+			}
+		},
+		top (newval,oldval) {
+			this.changeStyle();
 		}
 	}
 }
@@ -69,6 +125,30 @@ export default {
 
 <style lang="scss" scoped>
 .movebox {
-	position: relative;
+	position: absolute;
+	display:inline-block;
+	.hide {
+		display:none;
+	}
+	span {
+		position:absolute;
+		bottom: 130%;
+		background-color: rgba(0,0,0,0.3);
+		width: 2rem;
+		&:nth-of-type(1){
+			right: 50%;
+			border-top-left-radius: 50px;
+    		border-bottom-left-radius: 50px;
+    		margin-right: 1px;
+    		padding: 2px 5px 2px 10px;
+		}
+		&:nth-of-type(2){
+			left:50%;
+			border-top-right-radius: 50px;
+    		border-bottom-right-radius: 50px;
+    		margin-left: 1px;
+    		padding: 2px 10px 2px 5px;
+		}
+	}
 }
 </style>

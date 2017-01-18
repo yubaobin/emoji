@@ -1,0 +1,18 @@
+.edit-text-container {
+	height: 100%;
+	.edit-area {
+		max-height: 70%;
+    	overflow: scroll;	
+    	width: 100%;
+	}
+	.btn-group {
+		position: absolute;
+	    bottom: 0;
+	    width: 100%;
+		.button {
+			display: block;
+			margin-bottom: 10px;
+
+		}
+	}
+}
