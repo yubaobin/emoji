@@ -1,11 +1,34 @@
+
 <template>
-<div class="g-core-image-upload-btn">
+  <div class="g-core-image-upload-btn">
     {{text}}
     <slot></slot>
     <form class="g-core-image-upload-form" v-show="!hasImage" method="post" enctype="multipart/form-data" action="/api2/common_user/cropHeadUrl" style="display: block; cursor: pointer; position: absolute; left: 0px; top: 0px; width: 1242px; height: 61px; opacity: 0; margin: 0px; padding: 0px; overflow: hidden;">
       <input v-bind:disabled="uploading" v-bind:id="'g-core-upload-input-' + formID" v-bind:name="inputOfFile" type="file" v-bind:accept="inputAccept" v-on:change="change" style="width: 100%; height: 100%;">
-    </form>   
-</div>  
+    </form>    
+    <div class="g-core-image-corp-container" v-bind:id="'vciu-modal-' + formID" v-show="hasImage">
+    <div class="image-aside">
+      <div class="g-crop-image-box">
+        <div class="g-crop-image-principal">
+          <img v-bind:src="image.src" v-bind:style="{ width:image.width + 'px',height: image.height + 'px' }">
+          <div class="select-recorte" v-on:touchstart.self="drag" v-on:mousedown.self="drag" style="width:100px;height:100px;">
+            <div class="g-s-resize" style="z-index: 90;"></div>
+            <div class="g-e-resize" style="z-index: 90;"></div>
+            <div class="g-resize" v-on:touchstart.self="resize" v-on:mousedown.self="resize"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-aside">
+      <p class="btn-groups">
+        <button type="button" v-on:click="doCrop" class="btn btn-upload">{{cropBtn.ok}}</button>
+        <button type="button" v-on:click="cancel()" class="btn btn-cancel">{{cropBtn.cancel}}</button>
+      </p>
+    </div>
+</div>
+  </div>  
+
+  
 </template>
 
 <style>
@@ -40,6 +63,158 @@
     border:4px solid #ea6153;
   }
 
+  .g-core-image-corp-container{
+    z-index: 1900;
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom: 0;
+    background: rgba(0,0,0,.9);
+    color:#f1f1f1;
+  }
+  .g-core-image-corp-container .image-aside{
+    overflow: hidden;
+    position: absolute;
+    right: 30px;
+    left:30px;
+    top:60px;
+    bottom:20px;
+    text-align: center;
+  }
+  .g-core-image-corp-container .image-aside img{
+    max-width: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .g-core-image-corp-container .info-aside{
+    position: absolute;
+    left:0;
+    right: 0;
+    top:0;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #fefefe;
+    color:#777;
+  }
+  .g-core-image-corp-container .info-aside .image-corp-preview{
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    border:2px solid #ccc;
+  }
+  .g-core-image-corp-container .info-aside .image-corp-preview.circled{
+    border-radius: 160px;
+  }
+  .g-core-image-corp-container .info-aside .image-corp-preview img{
+    width: 100%;
+  }
+  .g-core-image-corp-container .info-aside .config-info .image-details{
+    width: 100%;
+    color:#999;    
+  }
+
+  .g-core-image-corp-container .info-aside .config-info .image-details td{
+    border:none; 
+    line-height: 24px;
+  }
+  .g-core-image-corp-container .info-aside .config-info .image-details tr td:first-child{
+    width:36%;  
+  }
+  .g-core-image-corp-container .info-aside .config-info .image-details tr td:last-child{
+    color:#555; 
+  }
+  .g-core-image-corp-container .btn-groups{
+    text-align: right;
+    margin: 5px 0 0;
+  }
+  .g-core-image-corp-container .btn{
+    display: inline-block;
+    padding: 0 15px;
+    height: 32px;
+    margin-left: 15px;
+    background: #fff;
+    border:1px solid #ccc;
+    border-radius: 2px;
+    font-size: 13px;
+    color:#222;
+    line-height: 32px;
+    transition: all .1s ease-in;
+  }
+  .g-core-image-corp-container .btn:hover{
+    border:1px solid #777;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05); 
+  }
+  .g-core-image-corp-container .btn:active,{
+    background: #ddd;
+  }
+  .g-core-image-corp-container .btn:disabled{
+    background: #eee !important;
+    border-color:#ccc;
+    cursor: not-allowed;
+  }
+  .g-core-image-corp-container .btn-upload{
+    background: #27ae60;
+    border-color:#27ae60;
+    color:#fff;
+  }
+  .g-core-image-corp-container .btn-upload:hover{
+    background: #2dc26c;
+    border-color:#27ae60;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05); 
+  }
+  .g-core-image-corp-container .g-crop-image-box,.g-core-image-corp-container .g-crop-image-box .g-crop-image-principal{
+    position: relative;   
+      
+  }
+  .g-core-image-corp-container .g-crop-image-box .select-recorte{
+    position: absolute;
+    background: #fff;
+    opacity: .5;
+    border:2px dashed #555;
+    cursor: move;
+      
+  }
+  .g-core-image-corp-container .g-resize{
+    z-index: 90;
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 20px;
+    height: 20px;
+    cursor: se-resize;
+  }
+  .g-core-image-corp-container .g-resize:after{
+    content: '';
+    display: block;
+    position: absolute;
+    background: #000;
+    width: 5px;
+    height: 5px;
+    right: 0;
+    bottom: 0;
+  }
+  .g-core-image-corp-container .g-e-resize{
+    cursor: e-resize;
+    position: absolute;
+    width: 7px;
+    right: -5px;
+    top: 0;
+    height: 100%;
+  }
+  .g-core-image-corp-container .g-s-resize{
+    position: absolute;
+    cursor: s-resize;
+    height: 7px;
+    width: 100%;
+    bottom: -5px;
+    left: 0;
+  }  
 </style>
 
 <script>
@@ -400,7 +575,24 @@
         type: String,
         default: 'files'
       },
-
+      
+      crop: {
+        type: Boolean,
+        default: false,
+      },
+      cropBtn: {
+        type: Object,
+        default: function() {
+          return {
+            ok: '保存',
+            cancel: '取消',
+          }
+        }
+      },
+      cropRatio: {
+        type: String,
+        default: '1:1'
+      },
       maxFileSize:{
         type: Number,
         default: 1024 * 1024 * 100,
@@ -470,7 +662,7 @@
         
         this.files = e.target.files;
         
-        if(this.show) {
+        if(this.crop) {
           this.__showImage();
           return;
             
@@ -491,12 +683,110 @@
         let self = this;
         reader.onload = function(e) {
           let src = e.target.result;
-          if(self.show) {
-            self.$emit('selectimg',src);
-          }
+            self.__initImage(src);
         }
          reader.readAsDataURL(this.files[0]);
       },
+      
+      // 对图像进行处理
+      __initImage(src) {
+        let pic = new Image();
+        let self = this;
+        pic.src = src;
+        
+        pic.onload= function() {
+          self.image.src = src;
+          self.image.width = pic.naturalWidth;
+          self.image.height = pic.naturalHeight;
+          self.__reseyLayout();
+          self.__initCropBox();
+        }
+      },
+      
+      // init crop area
+      __initCropBox (){
+        let dq = document.querySelector('#vciu-modal-' + this.formID);
+        let $selectCropBox = dq.querySelector('.select-recorte');
+        let $wrap = dq.querySelector('.g-crop-image-principal');
+        let imageWidth = parseInt($wrap.style['width']),
+            imageHeight = parseInt($wrap.style['height']);
+        let ratioW = this.cropRatio.split(':')[0],
+            ratioH = this.cropRatio.split(':')[1];
+        let Swidth = (imageWidth / 100) * 80;
+        let Sheight = (Swidth / ratioW) * ratioH;
+        $selectCropBox.style.cssText = 'width:' + Swidth + 'px;height: ' + Sheight + 'px;left:' + (imageWidth - Swidth) / 2 + 'px;top:' + (imageHeight - Sheight) / 2 + 'px;';
+        if (Sheight > imageHeight) {
+          Sheight = (imageHeight / 100) * 80;
+          Swidth = (Sheight * ratioW) / ratioH;
+          $selectCropBox.style.cssText = 'width:' + Swidth + 'px;height:' + Sheight + 'px;left:' + (imageWidth - Swidth) / 2 + 'px;top:' + (imageHeight - Sheight) / 2 + 'px';
+        };   
+      },
+        
+      
+      // reset layout 
+      __reseyLayout: function() {
+        let H = window.innerHeight - 80,
+            W = window.innerWidth - 60,
+            imageWidth = this.image.width,
+            imageHeight = this.image.height;
+        // caculate the image ratio
+        let R = imageWidth / imageHeight;
+        let Rs = W / H;
+        let dq = document.querySelector('#vciu-modal-' + this.formID);
+        let $container = dq.querySelector('.g-crop-image-principal'); 
+        if (R > Rs) {
+          this.image.width = W;
+          this.image.height = W / R;
+          // I don't hope to use a state to change the container stye
+          $container.style.cssText = 'width:' + W + 'px;height:' + W / R + 'px;margin-top:' + (H - W / R) / 2 + 'px';
+          
+        } else {
+          this.image.width =  H * R,
+          this.image.height = H;
+          
+          $container.style.cssText = 'width:' + H * R + 'px;height:' + H + 'px;margin-left:' + (W - H * R) / 2 + 'px;';
+        }
+        this.imgChangeRatio = imageWidth / this.image.width;
+       
+      },
+      
+      doCrop(e) {
+        let btn = e.target;
+        btn.value = btn.value + '...';
+        btn.disabled = true;
+        if(typeof this.data !== 'object') { 
+          this.data = {};  
+        }
+        
+        let $selectCrop = this.__find('.select-recorte');
+        this.data["request"] = "crop";
+        
+        this.data["toCropImgX"] = parseInt(window.getComputedStyle($selectCrop).left) * this.imgChangeRatio;
+        this.data["toCropImgY"] = parseInt(window.getComputedStyle($selectCrop).top) * this.imgChangeRatio;
+        this.data["toCropImgW"] = parseInt(window.getComputedStyle($selectCrop).width)  * this.imgChangeRatio;
+        this.data["toCropImgH"] = parseInt(window.getComputedStyle($selectCrop).height)  * this.imgChangeRatio;
+        if(this.show){
+          let img = new Image();
+          img.src = this.image.src;
+          let self = this;
+          const canvas = document.createElement('canvas');
+          canvas.width = this.image.width;
+          canvas.height = this.image.height;
+          const ctx = canvas.getContext('2d'); 
+          //裁剪
+          img.onload = function(){
+            ctx.drawImage(img,self.data["toCropImgX"],self.data["toCropImgY"],self.data["toCropImgW"],self.data["toCropImgH"],
+              0,0,self.image.width,self.image.height);
+            self.$emit('selectimg',canvas.toDataURL('image/png'));
+          }
+        }else {
+          this.tryAjaxUpload(function() {
+            btn.value = btn.value.replace('...','');
+            btn.disabled = false;  
+          });
+        }
+      },
+      
       
       cancel() {
         this.hasImage = false;
@@ -528,7 +818,7 @@
             callback();
           }
           self.uploading = false;
-          if(self.show) {
+          if(self.crop) {
               self.hasImage = false;
            } 
            self.__dispatch('imageuploaded',res);

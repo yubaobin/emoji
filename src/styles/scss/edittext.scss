@@ -1,6 +1,7 @@
 @import "../styles/base/_mixin";
 .edit-text-container {
 	height: 100%;
+	padding: 10px;
 	.edit-area {
 		height: 70%;
     	overflow: scroll;	

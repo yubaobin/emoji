@@ -12,6 +12,7 @@
 	  	  	 input-accept="image/*" 
 	  	  	 text="" 
 	  	  	 v-on:selectimg = "selectimg"
+	  	  	 v-bind:crop="true"
 	  	  	 v-bind:show="true" >
   	  	 	<icon name="camera"></icon>
   	  	 </vue-core-image-upload>
