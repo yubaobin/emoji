@@ -1,9 +1,20 @@
+@import "../styles/base/_mixin";
 .edit-text-container {
 	height: 100%;
 	.edit-area {
-		max-height: 70%;
+		height: 70%;
     	overflow: scroll;	
     	width: 100%;
+	}
+	.select-color {
+		position: relative;
+		span {
+			position: absolute;
+    		bottom: 1px;
+		}
+		.color-picker  {
+			@include center(80%);
+		}
 	}
 	.btn-group {
 		position: absolute;

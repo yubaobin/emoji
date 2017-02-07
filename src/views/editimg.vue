@@ -61,6 +61,7 @@ export default {
 										attrs: {
 											top: com.top,
 											left: com.left,
+											color: com.color,
 											id: com.id,
 											isShowTool: this.isShowTool,
 											name:com.id
@@ -191,7 +192,8 @@ export default {
 					id : Math.random().toString().substr(2, 8),
 					top: this.elemLength * 10 + 5,
 					left: this.elemLength + 2,
-					text: '点击编辑文字'
+					text: '点击编辑文字',
+					color: 'rgba(25,77,51,1)'
 				}
 				this.$store.dispatch('addElem',obj);
 			}

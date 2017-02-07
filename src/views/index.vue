@@ -24,13 +24,12 @@ import Vue from 'vue'
 import Icon from 'vue-awesome/components/Icon.vue'
 import 'vue-awesome/icons/camera'
 import editimg from 'views/editimg'
-import VueCoreImageUpload  from 'vue-core-image-upload/src/vue.core.image.upload.vue';
+import VueCoreImageUpload  from 'components/upload-files';
 import {mapGetters} from 'vuex'
 
 export default {
 	data:function(){
 		return {
-			imgsrc: "",
 			show: true
 		}
 	},

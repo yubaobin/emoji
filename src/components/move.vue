@@ -34,6 +34,9 @@ export default {
 			type:Number,
 			default: 0
 		},
+		color: {
+			type:String,
+		},
 		type: {
 			type:String,
 			default: "text"
@@ -53,7 +56,8 @@ export default {
 		boxstyle () {
 			return {
 				top: this.boxtop + "px",
-				left: this.boxleft + "px"
+				left: this.boxleft + "px",
+				color: this.color
 			}
 		},
 		currentId () {
@@ -70,7 +74,8 @@ export default {
 			return {
 				id: this.id,
 				top: this.boxtop,
-				left: this.boxleft 
+				left: this.boxleft ,
+				color: this.color
 			}
 		}
 	},
@@ -135,19 +140,19 @@ export default {
 		bottom: 130%;
 		background-color: rgba(0,0,0,0.3);
 		width: 2rem;
+		padding: 10px 5px 10px 10px;
 		&:nth-of-type(1){
 			right: 50%;
 			border-top-left-radius: 50px;
     		border-bottom-left-radius: 50px;
     		margin-right: 1px;
-    		padding: 2px 5px 2px 10px;
+    		
 		}
 		&:nth-of-type(2){
 			left:50%;
 			border-top-right-radius: 50px;
     		border-bottom-right-radius: 50px;
     		margin-left: 1px;
-    		padding: 2px 10px 2px 5px;
 		}
 	}
 }

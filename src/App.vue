@@ -15,7 +15,7 @@ import {mapState} from 'vuex'
 export default {
 	data (){
 		return {
-			welcome: true
+			
 		}
 	},
 	components: {

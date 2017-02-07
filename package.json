@@ -18,7 +18,6 @@
     "vue-awesome": "^2.0.3",
     "vue-awesome-swiper": "^2.3.0",
     "vue-color": "^2.0.5",
-    "vue-core-image-upload": "^2.0.1",
     "vue-mobiledoc-editor": "^1.0.4",
     "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
   },
