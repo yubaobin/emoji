@@ -2,7 +2,6 @@
  * 编辑器store
  */
 import * as types from '../type/mutations-type'
-
 //state
 const state = {
 	elements : [], //添加到图片元素数组
@@ -50,7 +49,7 @@ const actions = {
 const mutations = {
 	//设置正在编辑的元素
 	[types.SET_EDITING_ELEM] (state,{id}) {
-		const elem = state.elements.find( e => e.id == id);
+		const elem = Array.find(state.elements, (e) => e.id == id);
 		Object.assign(state.editingElem,elem);
 
 	},
@@ -61,12 +60,12 @@ const mutations = {
 	//更新元素
 	[types.UPDATE_ELEM] (state,elem) {
 		Object.assign(state.editingElem,elem);
-		const index = state.elements.findIndex( e => e.id == elem.id);
+		const index = Array.findIndex(state.elements, (e) => e.id == elem.id);
 		Object.assign(state.elements[index],elem);
 	},
 	//删除元素
 	[types.DELETE_ELEM] (state,elem) {
-		const index = state.elements.findIndex( e => e.id == elem.id);
+		const index = Array.findIndex(state.elements, (e) => e.id == elem.id);
 		state.elements.splice(index,1);
 	},
 	[types.CHANGE_IMG] (state,{src}) {

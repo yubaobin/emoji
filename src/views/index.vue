@@ -1,3 +1,6 @@
+<!-- 
+	算是首页
+-->
 <template>
   <div class="container" v-if="show">
   	 <section class="bg-content">

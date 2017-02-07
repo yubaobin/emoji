@@ -31,19 +31,26 @@
 			position: relative;
 			border-radius: 99px;
 			background-color: #F98A6A;
-			width: 60/$ppr;
-			height: 60/$ppr;
+			width: 50/$ppr;
+			height: 50/$ppr;
 		}
 		.back {
 			position: relative;
-			top: 18/$ppr;
+			top: 12/$ppr;
+			width: 50/$ppr;
+			height: 50/$ppr;
+			border: none;
+			background-color: #fff;
 			.fa-icon {
-				color: #000;
+				color: $grey;
 			}
 		}
 		.fa-icon {
-			width: 40/$ppr;
-			height: 30/$ppr;
+			width: 25/$ppr;
+			height: 25/$ppr;
+		}
+		.undertext {
+			font-size: 16/$ppr;
 		}
 	}
 	.sumitcontainer {

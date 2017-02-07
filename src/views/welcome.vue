@@ -1,3 +1,6 @@
+<!-- 
+	欢迎页面
+-->
 <template>
 	<div class="bg-welcome">
 		<div  class="img flyRight">

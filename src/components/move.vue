@@ -7,9 +7,9 @@
 		@panmove="panmove"
 		@panend="panend"
 		@tap.prevent="tap">
-		<slot></slot>
-		<v-touch tag="span" @tap="editElem" v-if="isShow" >编辑</v-touch >
-		<v-touch tag="span" @tap="deleteELem" v-if="isShow" >删除</v-touch >
+		<div v-html="text"></div>
+		<v-touch tag="span" @tap.prevent="editElem" v-if="isShow" >编辑</v-touch >
+		<v-touch tag="span" @tap.prevent="deleteELem" v-if="isShow" >删除</v-touch >
 	</v-touch>
 </template>
 
@@ -47,6 +47,10 @@ export default {
 		isShowTool: {
 			type:Boolean,
 			default: false
+		},
+		text: {
+			type: String,
+			default: ""
 		}
 	},
 	updated () {
@@ -82,8 +86,14 @@ export default {
 	methods: {
 		//开始移动
 		panstart (e) {
-			this.starttop = e.target.offsetTop;
-			this.startleft = e.target.offsetLeft;
+			let target = e.target;
+			while(target && !target.classList.contains('movebox')) {
+				target = target.parentNode;
+			}
+			if(target) {
+				this.starttop = target.offsetTop;
+				this.startleft = target.offsetLeft;
+			}
 		},
 		//移动中
 		panmove (e) {
@@ -139,7 +149,7 @@ export default {
 		position:absolute;
 		bottom: 130%;
 		background-color: rgba(0,0,0,0.3);
-		width: 2rem;
+		width: 2.5rem;
 		padding: 10px 5px 10px 10px;
 		&:nth-of-type(1){
 			right: 50%;

@@ -1,13 +1,16 @@
+<!-- 
+	文字编辑
+-->
 <template>
 	<div class="edit-text-container">
-		<div class="edit-area" contenteditable @input="inputText" :style="{color:color}">{{editElem.text}}</div>
+		<div class="edit-area" contenteditable @input="inputText" :style="{color:color}" v-html="editElem.text"></div>
 		<div class="select-color">
-			<span>颜色</span>
+			<p>颜色</p>
 			<slider-picker class="color-picker " v-model="colors" @change-color="onChange"></slider-picker>
 		</div>
 		<div class="btn-group">
-			<v-button class="button" btntype="success" @click="submit">修改</v-button>
-			<v-button class="button" btntype="success" @click="back">返回</v-button>
+			<v-button class="button" btntype="success" @click="submit" btnClass="v-btn">修改</v-button>
+			<v-button class="button" btntype="success" @click="back" btnClass="v-btn">返回</v-button>
 		</div>
 	</div>
 </template>
@@ -71,9 +74,10 @@ export default {
 	methods: {
 		submit () {
 			this.$store.dispatch('updateElem',this.elemValue);
-			this.$router.push('/index')
+			this.$router.push('/index');
 		},
 		inputText (e) {
+			console.log(e.target.innerText);
 			this.innerText = e.target.innerHTML;
 		},
 		back (e) {

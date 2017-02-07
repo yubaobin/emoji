@@ -1,4 +1,7 @@
 <!-- 
+	编辑图片
+-->
+<!-- 
 这里也可以用template 
 只是本人想使用模板函数     
 -->
@@ -22,13 +25,9 @@ export default {
 			leave:'', //预览离开
 			isShowTool: false,  //显示元素工具
 			swiperOption: {
-		        notNextTick: true,
-		        grabCursor : true,
-		        setWrapperSize :true,
 		        autoHeight: true,
 		        slidesPerView: 5,
 		        freeMode: true,
-		        spaceBetween: 30,
 		        onTransitionStart(swiper){
 
 		        },
@@ -78,15 +77,15 @@ export default {
 											color: com.color,
 											id: com.id,
 											isShowTool: this.isShowTool,
-											name:com.id
+											name:com.id,
+											text: com.text
 										},
 										on: {
 											editElem:this.editElem,
 											deleteElem:this.deleteElem,
 											showTool: this.showTool
 										}
-									},
-									com.text
+									}
 								)
 							})]
 						)
@@ -199,9 +198,15 @@ export default {
 	methods: {
 		//隐藏组件工具
 		cancel (e) {
-			if(!e.target.classList.contains('text')){
-				this.isShowTool = false;
+			let target = e.target;
+			/*
+			 * 由于v-touch组件功能不完善（没有阻止冒泡）
+			 * 循环查找父节点，如果父节点没有movebox 即不是点击组件，吧工具按钮隐藏
+			 */
+			while(target && target.classList && !target.classList.contains('movebox')) {
+				target = target.parentNode;
 			}
+			if(!(target.classList && target.classList.contains('movebox'))) this.isShowTool = false;
 		},
 		//显示组件工具
 		showTool (e) {
@@ -255,7 +260,7 @@ export default {
 		//编辑
 		editElem (id){
 			this.$store.dispatch('setElem',{id:id});
-			this.$router.push('/edittext')
+			this.$router.push('/edittext');
 		},
 		//删除
 		deleteElem (id){
