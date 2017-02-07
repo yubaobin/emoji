@@ -18,7 +18,7 @@
   	  	 </vue-core-image-upload>
   	 </section>  	 
   </div>
-  <edit-img :src="imgsrc" v-else></edit-img>
+  <edit-img :src="imgsrc" v-on:back="back" v-else></edit-img>
 </template>
 <script>
 import Vue from 'vue'
@@ -51,12 +51,17 @@ export default {
 		})
 	},
 	methods:{
-		imageuploaded(res) {
+		//文件上传完成
+		imageuploaded (){
 
 		},
-		selectimg(res){
+		selectimg (res){
 			this.show = false;
 			this.$store.dispatch('changeImg',{src:res});
+		},
+		back () {
+			this.show = true;
+			this.$store.dispatch('clear');
 		}
 	}
 }

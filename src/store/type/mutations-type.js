@@ -32,3 +32,8 @@ export const DELETE_ELEM = "delete_elem";
  * 改变图片
  */
 export const CHANGE_IMG = "change_img";
+
+/**
+ * 清空数据
+ */
+export const CLEAR = "clear"

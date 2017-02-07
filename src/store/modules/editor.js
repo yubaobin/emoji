@@ -39,6 +39,10 @@ const actions = {
 	//改变图片
 	changeImg ({commit},img) {
 		commit(types.CHANGE_IMG,img);
+	},
+	//清空数据 
+	clear ({commit}) {
+		commit(types.CLEAR);
 	}
 }
 
@@ -67,6 +71,11 @@ const mutations = {
 	},
 	[types.CHANGE_IMG] (state,{src}) {
 		state.editimg = src;
+	},
+	[types.CLEAR] (state) {
+		state.elements.splice(0,state.elements.length);
+		state.editingElem = {};
+		state.editimg = "";
 	}
 }
 

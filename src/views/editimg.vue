@@ -8,8 +8,10 @@ import html2canvas from 'plugins/html2canvas/html2canvas'
 import Icon from 'vue-awesome/components/Icon.vue'
 import 'vue-awesome/icons/close'
 import 'vue-awesome/icons/text-height'
+import 'vue-awesome/icons/chevron-left'
 import move from 'components/move'
 import {mapGetters} from 'vuex'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
 	data () {
@@ -18,7 +20,19 @@ export default {
 			hide: true, //预览隐藏现实
 			previewsrc:'', //预览
 			leave:'', //预览离开
-			isShowTool: false  //显示元素工具
+			isShowTool: false,  //显示元素工具
+			swiperOption: {
+		        notNextTick: true,
+		        grabCursor : true,
+		        setWrapperSize :true,
+		        autoHeight: true,
+		        slidesPerView: 5,
+		        freeMode: true,
+		        spaceBetween: 30,
+		        onTransitionStart(swiper){
+
+		        },
+	      }
 		}
 	},
 	props:{
@@ -84,29 +98,46 @@ export default {
 					{
 						class:{edittool:true}
 					},
-					this.buttons.map((button) =>{
-						return createElement(
-							'v-button',
+					[
+						createElement(
+							'swiper',
 							{
-								on:{
-									'!click':this.addComponent
-								},
 								attrs: {
-									btntype:button.type
-								}
+									options:this.swiperOption
+								},
+								ref: "mySwiperA"
 							},
-							[
-								createElement('icon',{attrs:{ name: button.icon}}),
-								createElement('span',
-									{
-										class:{undertext : true},
-										domProps: {innerHTML: button.name},
-										slot:'undertext'
-									},
-								),
-							]
+							this.buttons.map((button) =>{
+								return createElement(
+									'swiper-slide',
+									[
+										createElement(
+											'v-button',
+											{
+												on:{
+													'!click':this.addComponent
+												},
+												attrs: {
+													btntype:button.type,
+													btnClass:button.class
+												}
+											},
+											[
+												createElement('icon',{attrs:{ name: button.icon}}),
+												createElement('span',
+													{
+														class:{undertext : true},
+														domProps: {innerHTML: button.name},
+														slot:'undertext'
+													},
+												),
+											]
+										)
+									]
+								)
+							})
 						)
-					})
+					]
 				),
 				//生成图片按钮
 				createElement(
@@ -119,7 +150,7 @@ export default {
 							'v-button',
 							{
 								on:{click: this.change},
-								attrs: {btntype: "success"},
+								attrs: {btntype: "success",btnClass:'v-btn'},
 							},
 							[createElement('span','生成图片')]
 						)
@@ -152,6 +183,8 @@ export default {
 	components: {
 		'v-button':VueButton,
 		'icon': Icon,
+		'swiper': swiper,
+		'swiper-slide': swiperSlide,
 		move,
 	},
 	created (){
@@ -187,7 +220,9 @@ export default {
 		//添加组件
 		addComponent (e) {
 			const type = e.currentTarget.dataset['type'];
-			if(type == "text"){
+			if(type == "back"){
+				this.$emit('back');
+			}else if(type == "text"){
 				let obj = {
 					id : Math.random().toString().substr(2, 8),
 					top: this.elemLength * 10 + 5,
@@ -200,12 +235,17 @@ export default {
 		},
 		//添加工具按钮
 		addBtn () {
-			let btn = {
+			let btns = [{
+				icon: 'chevron-left',
+				type: 'back',
+				class: 'back'
+			},{
 				icon:'text-height',
 				name: '文字',
-				type: 'text'
-			}
-			this.buttons.push(btn)
+				type: 'text',
+				class: 'v-btn'
+			}]
+			this.buttons = btns;
 		},
 		//关闭预览
 		close () {

@@ -9,7 +9,7 @@
 		<div class="img flyDown">
 			<img src="../assets/welcome/3.png"/>
 		</div>
-		<v-button class="button fadeIn" btntype="warning" @click="gotoIndex()">进入</v-button>
+		<v-button class="button fadeIn" btnClass="v-btn" btntype="warning" @click="gotoIndex()">进入</v-button>
 	</div>
 </template>
 <script>

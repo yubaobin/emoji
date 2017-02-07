@@ -34,6 +34,13 @@
 			width: 60/$ppr;
 			height: 60/$ppr;
 		}
+		.back {
+			position: relative;
+			top: 18/$ppr;
+			.fa-icon {
+				color: #000;
+			}
+		}
 		.fa-icon {
 			width: 40/$ppr;
 			height: 30/$ppr;

@@ -1,7 +1,7 @@
 <template>
   <div class="btn-container">
     <button
-      class="v-btn"
+      :class="btnClass"
       :id="id"
       :name="name"
       :disabled="disabled"
@@ -38,6 +38,9 @@ export default {
       type: String
     },
     height:{
+      type: String
+    },
+    btnClass:{
       type: String
     }
   },
