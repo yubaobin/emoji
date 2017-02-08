@@ -213,10 +213,11 @@ export default {
 			this.isShowTool = true;
 		},
 		//生成图片
-		change () {
+		change (e) {
+			e.stopPropagation();
+			this.isShowTool = false;
 			html2canvas(this.$refs.editimg).then((canvas) => {
-				// this.$refs.preview.appendChild(canvas);
-				this.previewsrc = canvas.toDataURL("image/png");
+				this.previewsrc = canvas.toDataURL("image/jpeg",1);
 				this.leave = false;
 				this.hide = false;
 			})
@@ -224,10 +225,13 @@ export default {
 		},
 		//添加组件
 		addComponent (e) {
+			e.stopPropagation();
+			this.isShowTool = false;
+
 			const type = e.currentTarget.dataset['type'];
-			if(type == "back"){
+			if(type == "back"){ //返回
 				this.$emit('back');
-			}else if(type == "text"){
+			}else if(type == "text"){ //添加文本
 				let obj = {
 					id : Math.random().toString().substr(2, 8),
 					top: this.elemLength * 10 + 5,

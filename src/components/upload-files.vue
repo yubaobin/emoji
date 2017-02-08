@@ -3,7 +3,7 @@
   <div class="g-core-image-upload-btn">
     {{text}}
     <slot></slot>
-    <form class="g-core-image-upload-form" v-show="!hasImage" method="post" enctype="multipart/form-data" action="/api2/common_user/cropHeadUrl" style="display: block; cursor: pointer; position: absolute; left: 0px; top: 0px; width: 1242px; height: 61px; opacity: 0; margin: 0px; padding: 0px; overflow: hidden;">
+    <form class="g-core-image-upload-form" v-show="!hasImage" method="post" enctype="multipart/form-data" action="/api2/common_user/cropHeadUrl" style="display: block; cursor: pointer; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; opacity: 0; margin: 0px; padding: 0px; overflow: hidden;">
       <input v-bind:disabled="uploading" v-bind:id="'g-core-upload-input-' + formID" v-bind:name="inputOfFile" type="file" v-bind:accept="inputAccept" v-on:change="change" style="width: 100%; height: 100%;">
     </form>    
     <div class="g-core-image-corp-container" v-bind:id="'vciu-modal-' + formID" v-show="hasImage">
@@ -341,10 +341,13 @@
         w: parseInt(window.getComputedStyle($el).width),
         h: parseInt(window.getComputedStyle($el).height),
       };
-      this.splitX = ratio.split(':')[0];
-      this.splitY = ratio.split(':')[1];
+      if(ratio) {
+        this.splitX = ratio.split(':')[0];
+        this.splitY = ratio.split(':')[1];
+      }
       this.el = $el;
       this.container = $container;
+      this.ratio = ratio;
       drags = function(e) {
         self.drag(e);
       };
@@ -371,7 +374,16 @@
       let resetX = isMobile ? e.changedTouches[0]['clientX'] : e.clientX;
       let resetY = isMobile ? e.changedTouches[0]['clientY'] : e.clientY;
 
-      if (this.splitX > this.splitY) {
+      if(!this.ratio) {
+        this.el.style.width = (this.coor.w + (isMobile ? e.changedTouches[0]['clientX']:e.clientX) - this.coor.x) + 'px';
+        this.el.style.height = (this.coor.h + (isMobile ? e.changedTouches[0]['clientY']:e.clientY) - this.coor.y) + 'px';
+        if (parseInt(this.el.offsetHeight) >= parseInt(window.getComputedStyle($dotBox).height)) {
+          this.el.style.height = window.getComputedStyle($dotBox).height;
+        };
+        if (parseInt(this.el.offsetWidth) >= parseInt(window.getComputedStyle($dotBox).width)) {
+          this.el.style.width = window.getComputedStyle($dotBox).width;
+        }
+      }else if (this.splitX > this.splitY) {
         if (parseInt(resetX) >= ($halfX / 2) + parseInt(window.getComputedStyle($dotBox).width)) {
           return;
         } else {
@@ -433,7 +445,6 @@
           //现在拖拉范围不准超过某一边的范围
           return;
         } else {
-
           this.el.style.width = (this.coor.w + (isMobile ? e.changedTouches[0]['clientX']:e.clientX) - this.coor.x) + 'px';
           this.el.style.height = this.el.style.width;
           //限制拖拉的范围在图片内
@@ -770,14 +781,14 @@
           img.src = this.image.src;
           let self = this;
           const canvas = document.createElement('canvas');
-          canvas.width = this.image.width;
-          canvas.height = this.image.height;
+          canvas.width = self.data["toCropImgW"];
+          canvas.height = self.data["toCropImgH"];
           const ctx = canvas.getContext('2d'); 
           //裁剪
           img.onload = function(){
             ctx.drawImage(img,self.data["toCropImgX"],self.data["toCropImgY"],self.data["toCropImgW"],self.data["toCropImgH"],
-              0,0,self.image.width,self.image.height);
-            self.$emit('selectimg',canvas.toDataURL('image/png'));
+              0,0,self.data["toCropImgW"],self.data["toCropImgH"]);
+            self.$emit('selectimg',canvas.toDataURL('image/jpeg',1));
           }
         }else {
           this.tryAjaxUpload(function() {
@@ -830,7 +841,7 @@
         e.stopPropagation();
         let $el = e.target.parentElement;
         let $container = this.__find('.g-crop-image-principal');
-        let resizedObj = new Resize($el,$container,this.cropRatio,e);
+        let resizedObj = new Resize($el,$container,'',e);
       },
       
       drag(e) {
