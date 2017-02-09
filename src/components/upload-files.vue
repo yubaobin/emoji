@@ -706,6 +706,7 @@
         pic.src = src;
         
         pic.onload= function() {
+          alert(123);
           self.image.src = src;
           self.image.width = pic.naturalWidth;
           self.image.height = pic.naturalHeight;
