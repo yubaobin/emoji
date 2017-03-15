@@ -17,12 +17,14 @@
     "vue": "^2.1.0",
     "vue-awesome": "^2.0.3",
     "vue-awesome-swiper": "^2.3.0",
+    "vue-axios": "^2.0.1",
     "vue-color": "^2.0.5",
     "vue-mobiledoc-editor": "^1.0.4",
     "vue-touch": "git://github.com/vuejs/vue-touch.git#next"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
+    "axios": "^0.15.3",
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.0.0",

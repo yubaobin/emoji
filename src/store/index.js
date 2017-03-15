@@ -13,7 +13,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		showWelcome:false
+		showWelcome: true
 	},
 	mutations: {
 		[types.CHANGE_WELCOME] (state,options) {
