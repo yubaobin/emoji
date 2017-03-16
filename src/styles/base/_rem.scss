@@ -15,14 +15,3 @@ $ppr: $divide/1rem;// 定义单位
     }
     #{$property}: $remValues;
 }
-
-/**
- * 使用
- *
- * @import "rem";
- * .nav-list {
- *   height: 10px/$ppr;
- *   @include toRem(margin, 10, 15, 10, 15);
- * }
- *
- */
