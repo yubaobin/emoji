@@ -17,7 +17,7 @@
       const PSDWIDTH = 320;
       const DIVIDE = 20;
       const doc_width = document.documentElement.getBoundingClientRect().width;
-      document.documentElement.style.fontSize = DIVIDE / PSDWIDTH * doc_width + "px" ;
+      document.documentElement.style.fontSize = doc_width / PSDWIDTH * DIVIDE + "px" ;
    }
   	(function(){
       rem();
